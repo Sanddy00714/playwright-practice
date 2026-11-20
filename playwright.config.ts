@@ -1,7 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
 
-declare const process: { env: Record<string, string | undefined> };
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -24,7 +22,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
 
   timeout: 30_000, // a whole test can take at most 30 seconds
-  expect: { timeout: 1_000 }, // each expect retries for up to 5 seconds
+  expect: { timeout: 5_000 }, // each expect retries for up to 5 seconds
 
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
