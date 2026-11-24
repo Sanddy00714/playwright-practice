@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Sauce Demo - Shopping Cart", () => {
+test.describe("Sauce Demo sorting", () => {
+
+  test.use({ baseURL: "https://www.saucedemo.com" });
+
   test.beforeEach(async ({ page }) => {
-    await page.goto("https://www.saucedemo.com/");
+    await page.goto("/");
 
     await page.locator('[data-test="username"]').fill("standard_user");
     await page.locator('[data-test="password"]').fill("secret_sauce");
