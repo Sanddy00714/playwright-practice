@@ -47,7 +47,6 @@ test.describe("Sauce Demo sorting", () => {
 
     const expected = [...prices].sort((a, b) => a - b);
 
-    const expectedDesc = [...prices].sort((a, b) => b - a);
 
     expect(prices).toEqual(expected);
   });
