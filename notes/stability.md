@@ -18,18 +18,16 @@ npx playwright test --project=chromium --repeat-each=10
 
 ### Results
 
-| Metric | Result |
-|---|---:|
-| Passed | 110 |
-| Failed | 0 |
-| Total | 110 |
+| Metric   |      Result |
+| -------- | ----------: |
+| Passed   |         110 |
+| Failed   |           0 |
+| Total    |         110 |
 | Duration | 1.4 minutes |
 
 **Status: PASS**
 
 All 11 tests passed 10 consecutive repetitions on Chromium.
-
-No flaky tests or failures were observed.
 
 ---
 
@@ -51,12 +49,12 @@ npx playwright test --repeat-each=3
 
 ### Results
 
-| Browser | Passed | Failed | Total |
-|---|---:|---:|---:|
-| Chromium | 33 | 0 | 33 |
-| Firefox | 33 | 0 | 33 |
-| WebKit | 33 | 0 | 33 |
-| **Total** | **99** | **0** | **99** |
+| Browser   | Passed | Failed |  Total |
+| --------- | -----: | -----: | -----: |
+| Chromium  |     33 |      0 |     33 |
+| Firefox   |     33 |      0 |     33 |
+| WebKit    |     33 |      0 |     33 |
+| **Total** | **99** |  **0** | **99** |
 
 **Duration:** 2.4 minutes
 
@@ -72,36 +70,30 @@ No browser-specific failures were observed.
 
 No failures occurred in either final stability run.
 
-### Earlier Failure: `saucedemo-sort.spec.ts`
+### Flaky test found and fixed
 
-The earlier failure was caused by a Playwright strict mode violation.
+**Test:** `saucedemo-sort.spec.ts` › cheapest product can be added to the cart
 
-**Root Cause:**
+**Symptom:** It usually passed, but failed once during `--repeat-each=10` with a strict mode violation: the product-name locator matched 6 elements instead of 1.
 
-The cart verification locator matched multiple product names instead of being scoped to the cart item.
+**Root cause:** Timing. The assertion ran before the cart page had loaded, so it found the 6 product names still on the products page.
 
-**Resolution:**
+**First attempt (didn't work):** Scoping the locator to the item card. On the products page there are still 6 cards, so the race could still happen.
 
-Scoped the product name locator to the cart item using locator chaining.
+**Fix:** Wait for the cart page first with `await expect(page).toHaveURL(/cart\.html/)`, then check `toHaveCount(1)` before checking the name.
 
-I also found a flaky test that usually passed when run individually but failed intermittently with `--repeat-each=n`.
-
-I fixed it by adding a wait to ensure we were actually on the cart page before performing the assertions.
-
-The corrected test passed all 10 Chromium repetitions and all 3 repetitions in each browser.
-
----
+**Verification:** Re-ran it with `--repeat-each=20`, and every run passed.
 
 ## Final Stability Summary
 
-| Metric | Result |
-|---|---:|
+| Metric                  |  Result |
+| ----------------------- | ------: |
 | Chromium repeated tests | 110/110 |
-| Cross-browser tests | 99/99 |
-| Total executions | 209 |
-| Total passed | 209 |
-| Total failed | 0 |
-| Success rate | 100% |
+| Cross-browser tests     |   99/99 |
+| Total executions        |     209 |
+| Total passed            |     209 |
+| Total failed            |       0 |
+| Success rate            |    100% |
 
 **FINAL STATUS: PASS**
 

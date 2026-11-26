@@ -104,7 +104,7 @@ npx playwright test --repeat-each=3
 - Total failed: 0
 - Success rate: 100%
 
-No failures or browser-specific compatibility issues were observed during these stability runs.
+One flaky test was found and fixed during these runs. See [notes/stability.md](notes/stability.md) for the details.
 
 ## What I Learned in Week 4
 
