@@ -83,6 +83,6 @@ FINAL STATUS: PASS
 
 All 209 test executions passed successfully.
 
-No flaky tests or cross-browser compatibility issues were observed during these runs.
+I found a flaky test that usually passed when run individually but failed intermittently with `--repeat-each=n`. I fixed it by adding a wait to ensure we were actually on the cart page before performing the assertions.
 
 The Playwright test suite demonstrates consistent behavior across Chromium, Firefox, and WebKit in this test run.
