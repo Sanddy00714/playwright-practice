@@ -15,8 +15,9 @@ test.describe("Sauce Demo sorting", () => {
 
   // Test A: Verify products are sorted by price  high to low
   test("price high to low sorts products by price", async ({ page }) => {
-
-    await page.locator('[data-test="product-sort-container"]').selectOption("hilo");
+    await page
+      .locator('[data-test="product-sort-container"]')
+      .selectOption("hilo");
 
     const priceLocator = page.locator('[data-test="inventory-item-price"]');
 
@@ -47,7 +48,6 @@ test.describe("Sauce Demo sorting", () => {
 
     const expected = [...prices].sort((a, b) => a - b);
 
-
     expect(prices).toEqual(expected);
   });
 
@@ -74,8 +74,12 @@ test.describe("Sauce Demo sorting", () => {
     await page.locator('[data-test="shopping-cart-link"]').click();
 
     // Verify Sauce Labs Onesie is in the cart
-    await expect(page.locator('[data-test="inventory-item-name"]')).toHaveText(
-      "Sauce Labs Onesie",
-    );
+    await page.locator('[data-test="shopping-cart-link"]').click();
+
+    await expect(page).toHaveURL(/cart\.html/); // ← wait until we're really on the cart page
+
+    const cartNames = page.locator('[data-test="inventory-item-name"]');
+    await expect(cartNames).toHaveCount(1); // ← exactly one item in the cart
+    await expect(cartNames).toHaveText("Sauce Labs Onesie");
   });
 });
