@@ -10,7 +10,7 @@ test("standard user can log in", async ({ page }) => {
   await expect(page.locator('[data-test="title"]')).toHaveText("Products");
 });
 
-test("logout test", async ({ page }) => {
+test("Valid user can log in and log out", async ({ page }) => {
   await page.goto("/");
   await page.locator('[data-test="username"]').fill("standard_user");
   await page.locator('[data-test="password"]').fill("secret_sauce");
@@ -34,7 +34,7 @@ test("locked out user sees an error", async ({ page }) => {
   );
 });
 
-test("add to cart and checkout test", async ({ page }) => {
+test("Valid user can add to cart and checkout", async ({ page }) => {
   await page.goto("/");
   await page.locator('[data-test="username"]').fill("standard_user");
   await page.locator('[data-test="password"]').fill("secret_sauce");

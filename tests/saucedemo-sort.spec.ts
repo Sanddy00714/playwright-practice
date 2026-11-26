@@ -71,8 +71,6 @@ test.describe("Sauce Demo sorting", () => {
       "1",
     );
 
-    await page.locator('[data-test="shopping-cart-link"]').click();
-
     // Verify Sauce Labs Onesie is in the cart
     await page.locator('[data-test="shopping-cart-link"]').click();
 
